@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-fighting-arena"
+version = "0.1.0"
+description = "Deterministic combat arena with character tools, mana and turn cooldowns"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.10,<3", "httpx>=0.27,<1", "python-dotenv>=1,<2", "PyMySQL>=1.1,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4,<9"]
+web = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "websockets>=12,<17"]
+browser = ["playwright>=1.50,<2", "Pillow>=10,<13"]
+imagegen = ["openai>=2,<3"]
+
+[project.scripts]
+agent-arena = "backend.matches.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["backend*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

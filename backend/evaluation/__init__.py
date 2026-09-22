@@ -1,0 +1,1 @@
+"""Reproducible, headless strategy comparisons."""

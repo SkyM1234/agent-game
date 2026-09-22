@@ -1,0 +1,10 @@
+{
+  "item_id": "guardian_charm",
+  "name": "护身符",
+  "description": "展开短暂结界，获得20点护盾并持续2回合。",
+  "asset": "guardian_charm.png",
+  "allowed_professions": [],
+  "charges": 1,
+  "timing": { "windup_ms": 150, "active_ms": 50, "recovery_ms": 300 },
+  "effects": { "shield": 20, "shield_duration_turns": 2 }
+}

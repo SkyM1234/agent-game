@@ -1,0 +1,10 @@
+{
+  "item_id": "mana_crystal",
+  "name": "魔力结晶",
+  "description": "储存纯净魔力的晶石，使用后恢复35点魔力。",
+  "asset": "mana_crystal.png",
+  "allowed_professions": [],
+  "charges": 1,
+  "timing": { "windup_ms": 150, "active_ms": 50, "recovery_ms": 300 },
+  "effects": { "mana_restore": 35 }
+}

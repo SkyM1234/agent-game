@@ -1,0 +1,10 @@
+{
+  "item_id": "stamina_drink",
+  "name": "活力饮料",
+  "description": "快速补充体力的清凉饮料，使用后恢复35点体力。",
+  "asset": "stamina_drink.png",
+  "allowed_professions": [],
+  "charges": 1,
+  "timing": { "windup_ms": 150, "active_ms": 50, "recovery_ms": 300 },
+  "effects": { "stamina_restore": 35 }
+}

@@ -1,0 +1,10 @@
+{
+  "item_id": "time_sand",
+  "name": "时之砂",
+  "description": "加速招式循环，使所有技能剩余冷却减少1回合。",
+  "asset": "time_sand.png",
+  "allowed_professions": [],
+  "charges": 1,
+  "timing": { "windup_ms": 150, "active_ms": 50, "recovery_ms": 300 },
+  "effects": { "cooldown_reduction_turns": 1 }
+}

@@ -1,0 +1,27 @@
+{
+  "source_page": "https://mzh.moegirl.org.cn/ACG道具列表",
+  "accessed": "2026-09-16",
+  "references": [
+    {
+      "weapon_id": "stone_sword",
+      "name": "石中剑",
+      "image": "https://storage.moegirl.org.cn/moegirl/commons/7/71/Caliburn.jpg"
+    },
+    {
+      "weapon_id": "lake_sword",
+      "name": "湖中剑",
+      "image": "https://storage.moegirl.org.cn/moegirl/commons/e/e2/ACV_Excalibur_Concept_Art_1.jpg"
+    },
+    {
+      "weapon_id": "dragonwrath_staff",
+      "name": "巨龙之怒",
+      "image": "https://storage.moegirl.org.cn/moegirl/commons/2/2f/111089334030.jpg"
+    },
+    {
+      "weapon_id": "twilight_scepter",
+      "name": "暮光权杖",
+      "image": "https://storage.moegirl.org.cn/moegirl/commons/b/b0/Twilicane.png"
+    }
+  ],
+  "note": "References are used only for broad silhouette and palette study. Project assets are original pixel geometry drawn by draw_weapons.py."
+}

@@ -1,0 +1,56 @@
+{
+  "tools": [
+    {
+      "name": "blade_flurry",
+      "action": "jab",
+      "description": "连斩：快速近身斩击，不消耗魔力。",
+      "parameters": {}
+    },
+    {
+      "name": "draw_slash",
+      "action": "heavy_punch",
+      "description": "拔刀斩：蓄力造成高伤害，消耗魔力，注意前摇和射程。",
+      "parameters": {}
+    },
+    {
+      "name": "crimson_arc",
+      "action": "kick",
+      "description": "绯月斩：较远距离的弧形斩击，消耗魔力。",
+      "parameters": {}
+    },
+    {
+      "name": "blade_guard",
+      "action": "guard",
+      "description": "架刀：减免来自正面的伤害。",
+      "parameters": {}
+    },
+    {
+      "name": "swift_step",
+      "action": "dash",
+      "description": "疾步：快速接近或后退，消耗体力，没有无敌效果。",
+      "parameters": {
+        "direction": [
+          "forward",
+          "backward"
+        ]
+      }
+    },
+    {
+      "name": "blade_walk",
+      "action": "move",
+      "description": "步行：普通移动，消耗体力。",
+      "parameters": {
+        "direction": [
+          "forward",
+          "backward"
+        ]
+      }
+    },
+    {
+      "name": "breath",
+      "action": "rest",
+      "description": "调息：原地恢复体力和魔力，不超过上限。",
+      "parameters": {}
+    }
+  ]
+}

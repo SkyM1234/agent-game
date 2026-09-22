@@ -1,0 +1,10 @@
+{
+  "item_id": "smoke_bomb",
+  "name": "烟雾弹",
+  "description": "借烟幕脱离交战，向远离对手的方向后撤1.5。",
+  "asset": "smoke_bomb.png",
+  "allowed_professions": [],
+  "charges": 1,
+  "timing": { "windup_ms": 150, "active_ms": 50, "recovery_ms": 300 },
+  "effects": { "backward_move": 1.5 }
+}

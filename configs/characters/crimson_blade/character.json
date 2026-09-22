@@ -1,0 +1,77 @@
+{
+  "character_id": "crimson_blade",
+  "version": "crimson-blade-v5",
+  "profession": "swordsman",
+  "max_health": 100,
+  "max_stamina": 120,
+  "max_mana": 80,
+  "name": "绯刃",
+  "title": "剑士",
+  "skills": {
+    "jab": {
+      "display_name": "连斩",
+      "stamina_cost": 10,
+      "windup_ms": 100,
+      "active_ms": 100,
+      "recovery_ms": 300,
+      "reach": 1.8,
+      "health_damage": 15,
+      "mana_cost": 0,
+      "cooldown_turns": 0
+    },
+    "heavy_punch": {
+      "display_name": "拔刀斩",
+      "stamina_cost": 20,
+      "windup_ms": 250,
+      "active_ms": 100,
+      "recovery_ms": 100,
+      "reach": 2.2,
+      "health_damage": 20,
+      "mana_cost": 10,
+      "cooldown_turns": 1
+    },
+    "kick": {
+      "display_name": "绯月斩",
+      "stamina_cost": 16,
+      "windup_ms": 150,
+      "active_ms": 100,
+      "recovery_ms": 650,
+      "reach": 2.4,
+      "health_damage": 26,
+      "mana_cost": 15,
+      "cooldown_turns": 2
+    },
+    "guard": {
+      "display_name": "架刀",
+      "stamina_cost": 6,
+      "active_ms": 500,
+      "mana_cost": 0,
+      "cooldown_turns": 1
+    },
+    "dash": {
+      "display_name": "疾步",
+      "stamina_cost": 10,
+      "active_ms": 300,
+      "recovery_ms": 200,
+      "speed": 6,
+      "mana_cost": 0,
+      "cooldown_turns": 1
+    },
+    "move": {
+      "display_name": "步行",
+      "stamina_cost": 5,
+      "active_ms": 500,
+      "speed": 3,
+      "mana_cost": 0,
+      "cooldown_turns": 0
+    },
+    "rest": {
+      "display_name": "调息",
+      "active_ms": 500,
+      "stamina_restore": 15,
+      "mana_restore": 10,
+      "mana_cost": 0,
+      "cooldown_turns": 1
+    }
+  }
+}

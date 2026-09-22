@@ -1,0 +1,10 @@
+{
+  "item_id": "healing_potion",
+  "name": "樱露",
+  "description": "凝结樱花生命力的药露，使用后恢复25点生命。",
+  "asset": "healing_potion.png",
+  "allowed_professions": [],
+  "charges": 1,
+  "timing": { "windup_ms": 150, "active_ms": 50, "recovery_ms": 300 },
+  "effects": { "health_restore": 25 }
+}

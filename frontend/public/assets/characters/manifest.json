@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "characters": [
+    {
+      "id": "crimson_blade",
+      "atlas": "crimson_blade/sprites/atlas.png",
+      "animations": "crimson_blade/animations.json",
+      "portrait": "crimson_blade/portrait.png",
+      "impact": "crimson_blade/effects/impact.png"
+    },
+    {
+      "id": "frost_bell",
+      "atlas": "frost_bell/sprites/atlas.png",
+      "animations": "frost_bell/animations.json",
+      "portrait": "frost_bell/portrait.png",
+      "impact": "frost_bell/effects/impact.png"
+    }
+  ]
+}

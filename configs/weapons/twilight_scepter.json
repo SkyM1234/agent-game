@@ -1,0 +1,17 @@
+{
+  "weapon_id": "twilight_scepter",
+  "name": "暮光权杖",
+  "profession": "mage",
+  "description": "金色权杖兼顾生存与施法效率，降低防护和传送的魔力消耗。",
+  "asset": "twilight_scepter.png",
+  "resource_modifiers": {
+    "max_health": 10,
+    "max_stamina": -10,
+    "max_mana": 15
+  },
+  "skill_modifiers": {
+    "guard": { "mana_cost": -2 },
+    "dash": { "mana_cost": -2 },
+    "rest": { "mana_restore": 5 }
+  }
+}

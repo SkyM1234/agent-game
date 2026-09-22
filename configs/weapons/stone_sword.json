@@ -1,0 +1,17 @@
+{
+  "weapon_id": "stone_sword",
+  "name": "石中剑",
+  "profession": "swordsman",
+  "description": "均衡的仪式长剑，以生命换取更稳定的近战压制。",
+  "asset": "stone_sword.png",
+  "resource_modifiers": {
+    "max_health": 15,
+    "max_stamina": -5,
+    "max_mana": 0
+  },
+  "skill_modifiers": {
+    "jab": { "health_damage": 2 },
+    "heavy_punch": { "reach": 0.2 },
+    "guard": { "stamina_cost": -1 }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "healing_potion",
+      "asset": "healing_potion.png"
+    },
+    {
+      "id": "stamina_drink",
+      "asset": "stamina_drink.png"
+    },
+    {
+      "id": "mana_crystal",
+      "asset": "mana_crystal.png"
+    },
+    {
+      "id": "guardian_charm",
+      "asset": "guardian_charm.png"
+    },
+    {
+      "id": "time_sand",
+      "asset": "time_sand.png"
+    },
+    {
+      "id": "smoke_bomb",
+      "asset": "smoke_bomb.png"
+    }
+  ]
+}

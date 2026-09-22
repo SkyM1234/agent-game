@@ -1,0 +1,20 @@
+{
+  "site": "https://moegirl.icu/Mainpage",
+  "references": [
+    {
+      "file": "keqing.jpg",
+      "page": "https://moegirl.icu/刻晴",
+      "image": "https://box.moegirl.icu/media/刻晴.jpg",
+      "credit": "Genshin Impact / miHoYo, hosted by Moegirl mirror",
+      "study": "Anime face proportions, layered hair, short dress and sword silhouette."
+    },
+    {
+      "file": "ganyu.png",
+      "image": "https://box.moegirl.icu/media/循循守月_甘雨.png",
+      "page": "https://moegirl.icu/甘雨",
+      "credit": "Genshin Impact / miHoYo, hosted by Moegirl mirror",
+      "study": "Cool hair palette, flowing hair, contrasting fitted clothing and fabric layers."
+    }
+  ],
+  "usage": "Local drawing references only. Original images are not bundled with the frontend. Project fighters have adapted names, outfits, palettes and skills. No image generation API was used."
+}

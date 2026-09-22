@@ -1,0 +1,16 @@
+{
+  "weapon_id": "lake_sword",
+  "name": "湖中剑",
+  "profession": "swordsman",
+  "description": "沉重的黑刃长剑，提高体力与爆发，但会压缩魔力上限。",
+  "asset": "lake_sword.png",
+  "resource_modifiers": {
+    "max_health": 5,
+    "max_stamina": 10,
+    "max_mana": -10
+  },
+  "skill_modifiers": {
+    "heavy_punch": { "health_damage": 6, "mana_cost": 2, "recovery_ms": 50 },
+    "kick": { "health_damage": 3 }
+  }
+}

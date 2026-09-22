@@ -1,0 +1,2 @@
+"""AI fighting arena backend."""
+

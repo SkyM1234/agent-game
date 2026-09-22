@@ -1,0 +1,79 @@
+{
+  "character_id": "frost_bell",
+  "version": "frost-bell-v5",
+  "profession": "mage",
+  "max_health": 100,
+  "max_stamina": 80,
+  "max_mana": 120,
+  "name": "霜铃",
+  "title": "法师",
+  "skills": {
+    "jab": {
+      "display_name": "冰弹",
+      "stamina_cost": 8,
+      "windup_ms": 250,
+      "active_ms": 400,
+      "recovery_ms": 200,
+      "reach": 3.2,
+      "health_damage": 10,
+      "projectile_speed": 8,
+      "mana_cost": 16,
+      "cooldown_turns": 1
+    },
+    "heavy_punch": {
+      "display_name": "霜爆",
+      "stamina_cost": 15,
+      "windup_ms": 650,
+      "active_ms": 150,
+      "recovery_ms": 500,
+      "reach": 3.2,
+      "health_damage": 25,
+      "mana_cost": 24,
+      "cooldown_turns": 3
+    },
+    "kick": {
+      "display_name": "冰棘",
+      "stamina_cost": 16,
+      "windup_ms": 300,
+      "active_ms": 150,
+      "recovery_ms": 150,
+      "reach": 2.8,
+      "health_damage": 18,
+      "mana_cost": 20,
+      "cooldown_turns": 2
+    },
+    "guard": {
+      "display_name": "冰盾",
+      "stamina_cost": 6,
+      "active_ms": 500,
+      "mana_cost": 12,
+      "cooldown_turns": 2
+    },
+    "dash": {
+      "display_name": "传送",
+      "stamina_cost": 10,
+      "windup_ms": 100,
+      "active_ms": 100,
+      "recovery_ms": 250,
+      "teleport": true,
+      "mana_cost": 16,
+      "cooldown_turns": 2
+    },
+    "move": {
+      "display_name": "步行",
+      "stamina_cost": 5,
+      "active_ms": 500,
+      "speed": 2.4,
+      "mana_cost": 0,
+      "cooldown_turns": 0
+    },
+    "rest": {
+      "display_name": "冥想",
+      "active_ms": 500,
+      "stamina_restore": 10,
+      "mana_restore": 12,
+      "mana_cost": 0,
+      "cooldown_turns": 1
+    }
+  }
+}

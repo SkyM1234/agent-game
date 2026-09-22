@@ -1,0 +1,53 @@
+{
+  "tools": [
+    {
+      "name": "ice_bolt",
+      "action": "jab",
+      "description": "冰弹：消耗魔力发射远程冰弹，弹道飞行需要时间。",
+      "parameters": {}
+    },
+    {
+      "name": "frost_burst",
+      "action": "heavy_punch",
+      "description": "霜爆：消耗较多魔力，蓄力后造成高伤害。",
+      "parameters": {}
+    },
+    {
+      "name": "ice_spikes",
+      "action": "kick",
+      "description": "冰棘：消耗魔力，在中距离释放冰棘。",
+      "parameters": {}
+    },
+    {
+      "name": "ice_shield",
+      "action": "guard",
+      "description": "冰盾：消耗魔力减免来自正面的伤害。",
+      "parameters": {}
+    },
+    {
+      "name": "frost_teleport",
+      "action": "dash",
+      "description": "传送：消耗体力与魔力，在配置的前摇结束后传送到指定横向坐标 position，可越过对手。落点必须在工具给出的范围内且不与对手重叠，没有无敌效果。",
+      "parameters": {
+        "position": {"type": "number"}
+      }
+    },
+    {
+      "name": "frost_walk",
+      "action": "move",
+      "description": "步行：普通移动，消耗体力。",
+      "parameters": {
+        "direction": [
+          "forward",
+          "backward"
+        ]
+      }
+    },
+    {
+      "name": "meditate",
+      "action": "rest",
+      "description": "冥想：原地恢复体力和魔力，不超过上限。",
+      "parameters": {}
+    }
+  ]
+}

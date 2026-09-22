@@ -1,0 +1,111 @@
+{
+  "characters": {},
+  "step_ms": 50,
+  "decision_ms": 500,
+  "time_limit_ms": 60000,
+  "arena_width": 12.0,
+  "fighter_radius": 0.4,
+  "starting_positions": [
+    3.0,
+    9.0
+  ],
+  "max_health": 100.0,
+  "max_stamina": 100.0,
+  "max_mana": 100.0,
+  "guard_damage_multiplier": 0.3,
+  "rest_stamina_per_second": 30.0,
+  "rest_mana_per_second": 40.0,
+  "skills": {
+    "jab": {
+      "display_name": null,
+      "cooldown_turns": 0,
+      "projectile_speed": 0.0,
+      "stamina_cost": 8.0,
+      "mana_cost": 0.0,
+      "windup_ms": 100,
+      "active_ms": 100,
+      "recovery_ms": 300,
+      "reach": 1.3,
+      "health_damage": 10.0,
+      "speed": 0.0
+    },
+    "heavy_punch": {
+      "display_name": null,
+      "cooldown_turns": 2,
+      "projectile_speed": 0.0,
+      "stamina_cost": 20.0,
+      "mana_cost": 0.0,
+      "windup_ms": 400,
+      "active_ms": 100,
+      "recovery_ms": 500,
+      "reach": 1.5,
+      "health_damage": 25.0,
+      "speed": 0.0
+    },
+    "kick": {
+      "display_name": null,
+      "cooldown_turns": 1,
+      "projectile_speed": 0.0,
+      "stamina_cost": 16.0,
+      "mana_cost": 0.0,
+      "windup_ms": 250,
+      "active_ms": 100,
+      "recovery_ms": 650,
+      "reach": 2.1,
+      "health_damage": 16.0,
+      "speed": 0.0
+    },
+    "guard": {
+      "display_name": null,
+      "cooldown_turns": 0,
+      "projectile_speed": 0.0,
+      "stamina_cost": 6.0,
+      "mana_cost": 0.0,
+      "windup_ms": 0,
+      "active_ms": 500,
+      "recovery_ms": 0,
+      "reach": 0.0,
+      "health_damage": 0.0,
+      "speed": 0.0
+    },
+    "dash": {
+      "display_name": null,
+      "cooldown_turns": 1,
+      "projectile_speed": 0.0,
+      "stamina_cost": 10.0,
+      "mana_cost": 0.0,
+      "windup_ms": 0,
+      "active_ms": 250,
+      "recovery_ms": 250,
+      "reach": 0.0,
+      "health_damage": 0.0,
+      "speed": 6.0
+    },
+    "move": {
+      "display_name": null,
+      "cooldown_turns": 0,
+      "projectile_speed": 0.0,
+      "stamina_cost": 0.0,
+      "mana_cost": 0.0,
+      "windup_ms": 0,
+      "active_ms": 500,
+      "recovery_ms": 0,
+      "reach": 0.0,
+      "health_damage": 0.0,
+      "speed": 2.0
+    },
+    "rest": {
+      "display_name": null,
+      "cooldown_turns": 0,
+      "projectile_speed": 0.0,
+      "stamina_cost": 0.0,
+      "mana_cost": 0.0,
+      "windup_ms": 0,
+      "active_ms": 500,
+      "recovery_ms": 0,
+      "reach": 0.0,
+      "health_damage": 0.0,
+      "speed": 0.0
+    }
+  }
+}

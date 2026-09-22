@@ -1,0 +1,17 @@
+{
+  "weapon_id": "dragonwrath_staff",
+  "name": "巨龙之怒",
+  "profession": "mage",
+  "description": "蓝晶龙杖扩充魔力池，并强化远程法术的伤害与恢复。",
+  "asset": "dragonwrath_staff.png",
+  "resource_modifiers": {
+    "max_health": -5,
+    "max_stamina": 0,
+    "max_mana": 25
+  },
+  "skill_modifiers": {
+    "jab": { "health_damage": 3, "mana_cost": 2 },
+    "heavy_punch": { "health_damage": 6, "mana_cost": 4 },
+    "rest": { "mana_restore": 5 }
+  }
+}
