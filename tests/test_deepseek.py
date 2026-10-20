@@ -7,6 +7,7 @@ import threading
 import httpx
 import pytest
 from fastapi.testclient import TestClient
+from model_provider import current_observation
 
 from backend.agents import TestAgent
 from backend.agents import deepseek
@@ -61,7 +62,7 @@ def test_dotenv_does_not_expand_environment_variables(tmp_path, monkeypatch):
 
 def response_for(request, *, content=None):
     payload = json.loads(request.content)
-    observation = json.loads(payload["messages"][1]["content"])
+    observation = current_observation(payload)
     marker = "本场固定配置 match_context（整场不变）：\n"
     static = json.loads(payload["messages"][0]["content"].split(marker, 1)[1])
     observation["rules"] = static["rules"]
@@ -99,7 +100,7 @@ def run_decision(handler, **config):
 def test_realistic_tool_request_returns_action_and_safe_metadata():
     def handler(request):
         body = json.loads(request.content)
-        dynamic = json.loads(body["messages"][1]["content"])
+        dynamic = current_observation(body)
         marker = "本场固定配置 match_context（整场不变）：\n"
         static = json.loads(body["messages"][0]["content"].split(marker, 1)[1])
         assert request.url == "https://api.deepseek.com/chat/completions"
@@ -270,7 +271,7 @@ def test_both_agents_are_concurrent_and_observe_same_world_time():
         snapshots = []
 
         async def handler(request):
-            view = json.loads(json.loads(request.content)["messages"][1]["content"])
+            view = current_observation(json.loads(request.content))
             snapshots.append(view)
             if len(snapshots) == 2:
                 barrier.set()
@@ -398,8 +399,10 @@ def test_websocket_runs_and_saves_full_dual_model_match(tmp_path, monkeypatch):
 
 def test_websocket_cancellation_interrupts_inflight_requests(tmp_path, monkeypatch):
     cancelled = threading.Event()
+    entered = threading.Event()
 
     async def slow(request):
+        entered.set()
         try:
             await asyncio.sleep(30)
         except asyncio.CancelledError:
@@ -413,6 +416,7 @@ def test_websocket_cancellation_interrupts_inflight_requests(tmp_path, monkeypat
             socket.send_json({"p1": "counterfactual_deepseek", "p2": "counterfactual_deepseek"})
             assert socket.receive_json()["type"] == "started"
             assert socket.receive_json()["type"] == "waiting"
+            assert entered.wait(5)
             socket.send_json({"type": "cancel"})
             assert socket.receive_json()["type"] == "cancelled"
         assert cancelled.wait(1)

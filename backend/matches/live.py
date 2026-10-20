@@ -15,6 +15,7 @@ from backend.agents.deepseek import (
     SYSTEM_PROMPT, AgentDecision, DecisionInfo, DeepSeekAgent, DeepSeekSettings, ProviderError,
 )
 from backend.agents.scripted import AGENTS
+from backend.agents.pi import PiBattleAgent, PiRuntime
 from backend.agents.character_tools import available_bindings
 from backend.agents.planning import CounterfactualRollout, CounterfactualRolloutAgent, action_key
 from backend.game import Arena, GameConfig
@@ -134,6 +135,17 @@ async def record_live_match(
                                            on_update=on_update, wait_for_next=wait_for_next,
                                            client=owned_client, store=store,
                                            resume_id=resume_id)
+    async with PiRuntime() as runtime:
+        return await _record_live_match(
+            p1, p2, config, settings=settings, on_update=on_update,
+            wait_for_next=wait_for_next, client=client, store=store,
+            resume_id=resume_id, runtime=runtime,
+        )
+
+
+async def _record_live_match(
+    p1, p2, config, *, settings, on_update, wait_for_next, client, store, resume_id, runtime,
+) -> Recording:
     if resume_id and store is None:
         raise ValueError("resume requires a replay store")
 
@@ -146,11 +158,11 @@ async def record_live_match(
     if any(name in MODEL_AGENT_IDS for name in names.values()) and not settings.ready:
         raise ProviderError("missing_api_key")
     agents = {
-        player: (DeepSeekAgent(
+        player: (PiBattleAgent(runtime, player, DeepSeekAgent(
             settings, client,
             system_prompt=(persisted["header"]["agent_metadata"][player]["system_prompt"]
                            if persisted else SYSTEM_PROMPT),
-        ) if name in MODEL_AGENT_IDS else AGENTS[name]())
+        )) if name in MODEL_AGENT_IDS else AGENTS[name]())
         for player, name in names.items()
     }
     if persisted:
@@ -182,6 +194,7 @@ async def record_live_match(
         for player, name in names.items():
             if name in MODEL_AGENT_IDS:
                 metadata[player]["system_prompt"] = SYSTEM_PROMPT
+                metadata[player]["agent_runtime"] = "pi-agent-core"
         for player, character in arena.config.characters.items():
             if character.agent:
                 metadata[player].update(character_id=character.character_id,
@@ -245,7 +258,7 @@ async def record_live_match(
 
         async def decide(player, observation):
             agent = agents[player]
-            if isinstance(agent, DeepSeekAgent):
+            if isinstance(agent, PiBattleAgent):
                 if names[player] == "deepseek":
                     return await agent.decide(observation)
                 analysis = analyses[player]
@@ -400,7 +413,8 @@ async def record_live_match(
         "event_counts": dict(Counter(event.status for event in arena.events)),
         "model_usage": {player: {
             field: sum(decision["details"].get(player, {}).get(field, 0) for decision in decisions)
-            for field in ("attempts", "prompt_tokens", "completion_tokens", "total_tokens", "latency_ms")
+            for field in ("attempts", "prompt_tokens", "completion_tokens", "total_tokens", "latency_ms",
+                          "prompt_cache_hit_tokens", "prompt_cache_miss_tokens")
         } for player, name in names.items() if name in MODEL_AGENT_IDS},
     }
     recording = Recording(**header, frames=frames, decisions=decisions,

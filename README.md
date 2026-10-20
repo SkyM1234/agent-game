@@ -223,6 +223,12 @@ Vite 默认使用 <http://127.0.0.1:5173>，并将 `/api` 代理到 8000 端口�
 
 ## DeepSeek 配置
 
+模型对局使用本地 `pi-main/packages/agent` 的持续工具循环，需要 Node.js 22.19+ 和 Pi 的已构建依赖。现有 Pi 工作区可通过 `npm --prefix pi-main install --ignore-scripts --workspace packages/agent --workspace packages/ai` 安装依赖；首次构建按 [Pi 开发说明](pi-main/README.md#development) 操作。纯脚本与纯引擎推演对局不需要 Node.js。
+
+双方各自运行独立循环：提交动作后，工具等待协调器收齐当轮所有可行动角色的选择，再统一结算；直到该角色下次可决策且浏览器允许推进时，工具才返回新观察。等待结算、动作锁定及播放确认不计入模型请求超时。密钥和 HTTP 请求仍由 Python 管理。
+
+每个循环保留最多 4 组完整配对的工具调用与返回，只保留一份最新完整观察；旧观察压缩为时间标记，最新观察继续包含最近 4 个决策周期和更早的行为统计。上下文接近预算时按整组丢弃旧调用，必要时重新以当前完整观察开始。完整请求限制为 65,536 个 UTF-8 字节，这是大小预算，并非精确 Token 计数；单份当前观察及工具定义仍超限时，记录 `context_too_large` 并执行现有休息保底。回放详情和 `model_usage` 保存 `prompt_cache_hit_tokens`、`prompt_cache_miss_tokens`；缓存是否命中仍由服务商决定。
+
 配置模板见 [.env.example](.env.example)。DeepSeek 配置只读取项目根目录的 `.env`，不读取系统或进程环境变量，也不展开 `${变量名}`。未填写的配置项使用下表默认值；密钥缺失时无法启动反事实推演 + DeepSeek 对局。修改后创建新对局即可生效，已开始的对局继续使用原配置。
 
 | 配置 | 默认值 | 用途 |

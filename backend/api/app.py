@@ -187,18 +187,20 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
     async def live_match(socket: WebSocket):
         await socket.accept()
         tasks = []
+        cancel_requested = False
         try:
             body = MatchRequest.model_validate(await asyncio.wait_for(socket.receive_json(), 30))
             settings = DeepSeekSettings.from_env()
             acknowledgments = asyncio.Queue(maxsize=1)
 
             async def listen():
+                nonlocal cancel_requested
                 while True:
                     message = await socket.receive_json()
                     if not isinstance(message, dict):
                         raise ValueError("invalid live control")
                     if message.get("type") == "cancel":
-                        await socket.send_json({"type": "cancelled"})
+                        cancel_requested = True
                         return
                     if message.get("type") == "next" and acknowledgments.empty():
                         acknowledgments.put_nowait(True)
@@ -232,8 +234,10 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
             if tasks:
                 await asyncio.gather(*tasks, return_exceptions=True)
             try:
+                if cancel_requested:
+                    await socket.send_json({"type": "cancelled"})
                 await socket.close()
-            except RuntimeError:
+            except (RuntimeError, WebSocketDisconnect):
                 pass
 
     @app.post("/api/replays/import", status_code=201)

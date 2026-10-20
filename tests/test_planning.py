@@ -4,6 +4,7 @@ import json
 from statistics import fmean
 
 import httpx
+from model_provider import current_observation
 from fastapi.testclient import TestClient
 import pytest
 
@@ -237,7 +238,7 @@ def test_deepseek_receives_engine_generated_counterfactual_analysis():
 
     def provider(request):
         body = json.loads(request.content)
-        observations.append(json.loads(body["messages"][1]["content"]))
+        observations.append(current_observation(body))
         return httpx.Response(200, json={"choices": [{
             "finish_reason": "tool_calls",
             "message": {"tool_calls": [{"type": "function", "function": {

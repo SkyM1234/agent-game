@@ -18,7 +18,11 @@ async def fixture():
 
     def provider(request):
         body = json.loads(request.content)
-        observation = json.loads(body["messages"][1]["content"])
+        observation = next(
+            json.loads(message["content"]) for message in reversed(body["messages"])
+            if message["role"] in ("user", "tool") and message["content"].startswith("{")
+            and "self" in json.loads(message["content"])
+        )
         name = "move" if observation["distance"] > 2 else "jab"
         tool = next(tool["function"] for tool in body["tools"] if tool["function"]["name"] == name)
         arguments = {key: spec["enum"][0] for key, spec in tool["parameters"]["properties"].items() if key != "decision_summary"}

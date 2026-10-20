@@ -17,6 +17,7 @@ from .character_tools import available_bindings, model_observation, profile_for
 
 PROMPT_VERSION = "combat-tools-v16"
 SUMMARY_MAX_CHARS = 60
+MAX_CONTEXT_BYTES = 65_536
 ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
 SYSTEM_PROMPT = """请在确定性竞技场中为你的角色选择一个动作。将对手生命值降至零即可获胜；
 若比赛超时，则剩余生命值较高者获胜。双方同时决策，决策期间游戏时间暂停。只能依据当前观察决策。
@@ -59,6 +60,7 @@ ERROR_MESSAGES = {
     "invalid_provider_request": "DeepSeek 拒绝了请求参数，请检查接口兼容性",
     "insufficient_balance": "DeepSeek 账户余额不足",
     "provider_unavailable": "模型连续请求失败，对局已停止",
+    "agent_runtime_unavailable": "Pi Agent 运行失败，请检查 Node.js 和 pi-main 依赖",
 }
 
 DECISION_ERRORS = {
@@ -74,6 +76,7 @@ DECISION_ERRORS = {
     "invalid_target_or_direction": "模型返回了不可用的技能参数或移动方向",
     "invalid_tool_response": "模型返回的工具调用格式无效",
     "response_truncated": "模型输出达到长度限制，工具参数可能不完整",
+    "context_too_large": "当前观察与工具定义超过上下文预算",
 }
 
 
@@ -139,6 +142,9 @@ class DecisionInfo(Schema):
     prompt_tokens: int = Field(default=0, ge=0)
     completion_tokens: int = Field(default=0, ge=0)
     total_tokens: int = Field(default=0, ge=0)
+    prompt_cache_hit_tokens: int = Field(default=0, ge=0)
+    prompt_cache_miss_tokens: int = Field(default=0, ge=0)
+    context_bytes: int = Field(default=0, ge=0)
     requested_model: str | None = None
     returned_model: str | None = None
     errors: list[str] = Field(default_factory=list)
@@ -346,7 +352,7 @@ class DeepSeekAgent:
         self.client = client
         self.system_prompt = system_prompt
 
-    async def decide(self, observation: dict) -> AgentDecision:
+    async def decide(self, observation: dict, *, messages: list[dict] | None = None) -> AgentDecision:
         started = time.perf_counter()
         bindings = available_bindings(observation)
         profile = profile_for(observation)
@@ -362,7 +368,7 @@ class DeepSeekAgent:
         if profile:
             details["character_id"] = observation["rules"]["characters"][observation["self"]["fighter_id"]]["character_id"]
             details["character_prompt_version"] = profile["version"]
-        messages = prompt_messages(observation, self.system_prompt)
+        messages = deepcopy(messages) if messages is not None else prompt_messages(observation, self.system_prompt)
         try:
             async with asyncio.timeout(self.settings.timeout_seconds):
                 for attempt in range(2):
@@ -374,6 +380,14 @@ class DeepSeekAgent:
                         "max_tokens": self.settings.max_tokens,
                         "temperature": self.settings.temperature,
                     }
+                    context_bytes = len(json.dumps(
+                        request_body, ensure_ascii=False, separators=(",", ":"),
+                    ).encode("utf-8"))
+                    if context_bytes > MAX_CONTEXT_BYTES:
+                        details["attempts"] -= 1
+                        details["errors"].append("context_too_large")
+                        break
+                    details["context_bytes"] = context_bytes
                     trace["input"].append(request_body)
                     response = await self.client.post(
                         self.settings.base_url.rstrip("/") + "/chat/completions",
@@ -429,6 +443,17 @@ class DeepSeekAgent:
                                 value = usage.get(field, 0)
                                 if isinstance(value, int) and value >= 0:
                                     details[field] += value
+                            cached = usage.get("prompt_cache_hit_tokens")
+                            if cached is None:
+                                token_details = usage.get("prompt_tokens_details") or {}
+                                cached = token_details.get("cached_tokens", 0) if isinstance(token_details, dict) else 0
+                            if isinstance(cached, int) and cached >= 0:
+                                details["prompt_cache_hit_tokens"] = details.get("prompt_cache_hit_tokens", 0) + cached
+                            missed = usage.get("prompt_cache_miss_tokens")
+                            if missed is None and isinstance(usage.get("prompt_tokens"), int) and isinstance(cached, int):
+                                missed = max(0, usage["prompt_tokens"] - cached)
+                            if isinstance(missed, int) and missed >= 0:
+                                details["prompt_cache_miss_tokens"] = details.get("prompt_cache_miss_tokens", 0) + missed
                         returned_model = data.get("model")
                         if isinstance(returned_model, str):
                             details["returned_model"] = returned_model[:128]

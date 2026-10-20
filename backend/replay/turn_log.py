@@ -173,12 +173,12 @@ def _render_request(request: dict) -> list[str]:
     observation = None
     retry_instruction = None
     for message in request.get("messages", []):
-        if message.get("role") != "user":
+        if message.get("role") not in ("user", "tool"):
             continue
         content = _decoded(message.get("content", ""))
         if isinstance(content, dict) and "self" in content:
             observation = content
-        elif isinstance(content, str):
+        elif isinstance(content, str) and content.startswith("Previous response invalid:"):
             retry_instruction = content
     tools = [
         tool.get("function", {}).get("name", "unknown")

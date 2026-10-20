@@ -5,6 +5,7 @@ import sys
 
 from fastapi.testclient import TestClient
 import httpx
+from model_provider import current_observation
 import pytest
 
 from backend.agents.deepseek import DeepSeekSettings
@@ -165,7 +166,7 @@ def test_pure_llm_never_invokes_rollout_and_metrics_include_repair(monkeypatch):
     def provider(request):
         body = json.loads(request.content)
         requests.append(body)
-        assert "counterfactual_analysis" not in json.loads(body["messages"][1]["content"])
+        assert "counterfactual_analysis" not in current_observation(body)
         name = "not_a_tool" if len(requests) == 1 else "rest"
         return httpx.Response(200, json={"model": "controlled-model", "usage": {
             "prompt_tokens": 100, "completion_tokens": 20, "total_tokens": 120,

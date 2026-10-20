@@ -4,6 +4,7 @@ import json
 import shutil
 
 import httpx
+from model_provider import current_observation
 import pytest
 from fastapi.testclient import TestClient
 
@@ -137,7 +138,7 @@ def test_next_decision_sees_recent_missed_attack_and_range_without_tool_filterin
 
     def provider(request):
         body = json.loads(request.content)
-        view = json.loads(body["messages"][1]["content"])
+        view = current_observation(body)
         requests.append((view, {tool["function"]["name"] for tool in body["tools"]}))
         if view["self"]["fighter_id"] == "p2":
             return httpx.Response(200, json=response("meditate"))
@@ -174,7 +175,7 @@ def test_recent_turn_context_is_bounded_per_match(tmp_path):
 
     def provider(request):
         body = json.loads(request.content)
-        view = json.loads(body["messages"][1]["content"])
+        view = current_observation(body)
         views.append(view)
         lengths.append(len(view["recent_turns"]))
         walk = "blade_walk" if view["self"]["fighter_id"] == "p1" else "frost_walk"
@@ -214,7 +215,7 @@ def test_action_started_after_lock_expiry_is_visible_in_opponent_context():
     requests = []
 
     def provider(request):
-        view = json.loads(json.loads(request.content)["messages"][1]["content"])
+        view = current_observation(json.loads(request.content))
         requests.append(view)
         if view["self"]["fighter_id"] == "p1":
             return httpx.Response(200, json=response("breath"))
